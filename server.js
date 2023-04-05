@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-
+require("dotenv").config();
+const auth = require("./middleware/auth");
 const app = express();
 
 var corOptions = {
@@ -19,9 +20,9 @@ app.use("/api/v1", routesAuthen);
 const routesCustomer = require("./routes/customerRoutes");
 app.use("/api/v1/customer", routesCustomer);
 
-// app.use("/api/v1/customer", (req, res) => {
-//   res.json({ message: "hello world" });
-// });
+app.use("/api/v1/customer", auth, (req, res) => {
+  res.json({ message: "hello world" });
+});
 
 const PORT = process.env.PORT || 8080;
 

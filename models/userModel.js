@@ -41,14 +41,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    createDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: true,
-    },
-    updateDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: true,
-    },
   });
 
   return User;
