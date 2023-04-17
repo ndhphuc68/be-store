@@ -2,13 +2,18 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const auth = require("./middleware/auth");
+const roles = require("./middleware/checkRoles");
 const app = express();
+const bodyParser = require("body-parser");
+const Role = require("./utils/role");
 
 var corOptions = {
   origin: "http://localhost:8081",
 };
 
 app.use(cors());
+
+app.use(bodyParser.json());
 
 app.use(express.json());
 
@@ -18,9 +23,12 @@ const routesAuthen = require("./routes/authenRoutes");
 app.use("/api/v1", routesAuthen);
 
 const routesCustomer = require("./routes/customerRoutes");
+
 app.use("/api/v1/customer", routesCustomer);
 
-app.use("/api/v1/customer", auth, (req, res) => {
+
+// routes test
+app.use("/api/v1/test", auth, roles(Role.CUSTOMER), (req, res) => {
   res.json({ message: "hello world" });
 });
 

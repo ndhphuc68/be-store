@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const Constants = require("../utils/constants");
 const ApiResponse = require("../dto/apiResponse");
+const Role = require("../utils/role");
 const User = db.user;
 
 const register = async (req, res) => {
@@ -32,7 +33,7 @@ const register = async (req, res) => {
     const user = await User.create(userRegister);
 
     const token = jwt.sign(
-      { user_id: user._userId, username },
+      { user_id: user._userId, username,role: Role.CUSTOMER },
       process.env.TOKEN_KEY,
       {
         expiresIn: "10h",
@@ -42,11 +43,6 @@ const register = async (req, res) => {
     userRegister.token = token;
     userRegister.password = "";
 
-    // let dataRes = {
-    //   success: true,
-    //   message: Constants.CREATE_USER_SUCCESS,
-    //   data: userRegister,
-    // };
     res
       .status(200)
       .json(new ApiResponse(true, Constants.CREATE_USER_SUCCESS, userRegister));
@@ -69,7 +65,7 @@ const login = async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign(
-        { user_id: user._userId, username },
+        { user_id: user._userId, username, role: user.role },
         process.env.TOKEN_KEY,
         {
           expiresIn: "10h",

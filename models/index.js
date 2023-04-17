@@ -28,6 +28,10 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.user = require("./userModel.js")(sequelize, DataTypes);
+db.product = require("./productModel")(sequelize, DataTypes);
+db.category = require("./categoryModal")(sequelize, DataTypes);
+db.productSkuPrice = require("./productSkuPrice")(sequelize, DataTypes);
+db.productCategory = require("./productCategory")(sequelize, DataTypes);
 
 db.sequelize.sync({ force: false }).then(() => {
   console.log("yes re-sync done");

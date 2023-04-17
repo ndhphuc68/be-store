@@ -5,6 +5,9 @@ const db = require("../models");
 const User = db.user;
 
 const verifyToken = async (req, res, next) => {
+  if(!req.header("Authorization")){
+    return res.status(401).send("Invalid Token");
+  }
   const token = req.header("Authorization").replace("Bearer ", "");
 
   if (!token) {

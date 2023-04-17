@@ -17,7 +17,6 @@ const updateCustomer = async (req, res) => {
 };
 
 const profile = async (req, res) => {
-  console.log("dsadsadsa");
   if (req.params.id) {
     const user = await User.findOne({
       where: {
